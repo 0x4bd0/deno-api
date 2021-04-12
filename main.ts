@@ -81,6 +81,21 @@ router.put('/api/books/:id',async(context : RouterContext)=>{
     context.response.body = book
 })
 
+
+router.delete('/api/books/:id',async(context : RouterContext)=>{
+    
+    let data  =  books.findIndex(item=>item.Id === context.params.id)
+
+    if(data  == -1) {
+    context.response.body =  'Not found'
+    return
+    }
+
+    books.splice(data,1);
+
+    context.response.body = books
+})
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 
