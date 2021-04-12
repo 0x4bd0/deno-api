@@ -51,7 +51,34 @@ router.post('/api/books',async(context : RouterContext)=>{
 
     books.push(book)
 
-    context.response.body = books
+    context.response.body = book
+})
+
+
+router.put('/api/books/:id',async(context : RouterContext)=>{
+    
+    let data  =  books.findIndex(item=>item.Id === context.params.id)
+
+    if(data  == -1) {
+    context.response.body =  'Not found'
+    return
+    }
+
+    let body = context.request.body()
+
+    let requestBody = await body.value
+
+    let book : book = {
+        Id: books[data].Id,
+        Name: requestBody.name ?? null,
+        Author: requestBody.author ?? null,
+        BookType: requestBody.bookType ?? null,
+        Price: requestBody.price ?? null,
+    }
+
+    books[data] =  book
+
+    context.response.body = book
 })
 
 app.use(router.routes())
