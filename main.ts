@@ -35,6 +35,25 @@ router.get('/api/books/:id',(context : RouterContext)=>{
     context.response.body =   data.length >  0  ?  data.pop()  : "Not found"
 })
 
+router.post('/api/books',async(context : RouterContext)=>{
+
+    let body = context.request.body()
+
+    let requestBody = await body.value
+
+    let book : book = {
+        Id: Math.random().toString(36).slice(-6),
+        Name: requestBody.name ?? null,
+        Author: requestBody.author ?? null,
+        BookType: requestBody.bookType ?? null,
+        Price: requestBody.price ?? null,
+    }
+
+    books.push(book)
+
+    context.response.body = books
+})
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 
