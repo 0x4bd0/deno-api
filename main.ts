@@ -30,6 +30,11 @@ router.get('/api/books',(context : RouterContext)=>{
     context.response.body =   books
 })
 
+router.get('/api/books/:id',(context : RouterContext)=>{
+    let data : Array<book> =  books.filter(item=>item.Id === context.params.id)
+    context.response.body =   data.length >  0  ?  data.pop()  : "Not found"
+})
+
 app.use(router.routes())
 app.use(router.allowedMethods())
 
